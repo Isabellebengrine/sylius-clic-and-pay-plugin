@@ -10,7 +10,7 @@
         </service>
 
         <service id="Poliofu\SyliusClicAndPayPlugin\Form\Type\SyliusGatewayConfigurationType">
-            <tag name="sylius.gateway_configuration_type" type="sylius_payment" label="Sylius Payment" />
+            <tag name="sylius.gateway_configuration_type" type="sylius_payment" label="Sylius Clic&amp;Pay" />
             <tag name="form.type" />
         </service>
 
