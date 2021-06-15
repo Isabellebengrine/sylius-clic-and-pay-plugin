@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Poliofu\SyliusClicAndPayPlugin
+        psr4_prefix: Poliofu\SyliusClicAndPayPlugin
