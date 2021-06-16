@@ -2,21 +2,19 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="Poliofu\SyliusClicAndPayPlugin\Controller\GreetingController" autowire="true" autoconfigure="true" public="true" />
-
-        <service id="app.sylius_payment" class="Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder">
+        <service id="app.sylius_clic_and_pay" class="Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder">
             <argument>Poliofu\SyliusClicAndPayPlugin\Payum\SyliusPaymentGatewayFactory</argument>
-            <tag name="payum.gateway_factory_builder" factory="sylius_payment" />
+            <tag name="payum.gateway_factory_builder" factory="sylius.clic_and_pay" />
         </service>
 
         <service id="Poliofu\SyliusClicAndPayPlugin\Form\Type\SyliusGatewayConfigurationType">
-            <tag name="sylius.gateway_configuration_type" type="sylius_payment" label="Sylius Clic&amp;Pay" />
+            <tag name="sylius.gateway_configuration_type" type="sylius_payment" label="Clic&amp;Pay" />
             <tag name="form.type" />
         </service>
 
         <service id="Poliofu\SyliusClicAndPayPlugin\Payum\Action\CaptureAction" public="true">
             <argument type="service" id="sylius.http_client" />
-            <tag name="payum.action" factory="sylius_payment" alias="payum.action.capture" />
+            <tag name="payum.action" factory="sylius.clic_and_pay" alias="payum.action.capture" />
         </service>
     </services>
 </container>
