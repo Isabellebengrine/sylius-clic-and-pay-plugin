@@ -15,7 +15,7 @@ final class SyliusPaymentGatewayFactory extends GatewayFactory
     protected function populateConfig(ArrayObject $config): void
     {
         $config->defaults([
-            'payum.factory_name' => 'sylius.clic_and_pay',
+            'payum.factory_name' => 'clic_and_pay',
             'payum.factory_title' => 'Clic&Pay',
             'payum.action.status' => new StatusAction(),
         ]);
