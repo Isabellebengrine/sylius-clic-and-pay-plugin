@@ -34,11 +34,14 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $payment = $request->getModel();
 
         try {
-            $response = $this->client->request('POST', 'https://ptsv2.com/t/6a45g-1623831704/post', [
+            $response = $this->client->request('POST', 'https://api-clicandpay.groupecdn.fr/api-payment/V4/Charge/CreatePayment', [
                 'body' => json_encode([
                     'price' => $payment->getAmount(),
                     'currency' => $payment->getCurrencyCode(),
-                    'api_key' => $this->api->getApiKey(),
+                    'username' => $this->api->getUsername(),
+                    'password' => $this->api->getPassword(),
+                    'publicKey' => $this->api->getPublicKey(),
+                    'sha256Key' => $this->api->getSha256Key(),
                 ]),
             ]);
         } catch (RequestException $exception) {
