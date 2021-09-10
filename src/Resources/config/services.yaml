@@ -6,7 +6,7 @@ services:
         tags:
             - { name: payum.gateway_factory_builder, factory: clic_and_pay }
 
-    Poliofu\SyliusClicAndPayPlugin\Form\Type\SyliusGatewayConfigurationType:
+    Poliofu\SyliusClicAndPayPlugin\Form\Type\ClicandpayGatewayConfigurationType:
         tags:
             - { name: sylius.gateway_configuration_type, type: clic_and_pay, label: Clic&Pay }
             - { name: form.type }
