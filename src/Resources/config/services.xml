@@ -7,7 +7,7 @@
             <tag name="payum.gateway_factory_builder" factory="clic_and_pay" />
         </service>
 
-        <service id="Poliofu\SyliusClicAndPayPlugin\Form\Type\SyliusGatewayConfigurationType">
+        <service id="Poliofu\SyliusClicAndPayPlugin\Form\Type\ClicandpayGatewayConfigurationType">
             <tag name="sylius.gateway_configuration_type" type="clic_and_pay" label="Clic&amp;Pay" />
             <tag name="form.type" />
         </service>
