@@ -27,7 +27,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
     }
 
     public function execute($request): void
-    {
+    {//dd($request);
         RequestNotSupportedException::assertSupports($this, $request);
 
         /** @var SyliusPaymentInterface $payment */
@@ -36,13 +36,16 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $params = [
             'vads_action_mode' => 'INTERACTIVE',
             'vads_amount' => $payment->getAmount(),
+            'vads_capture_delay' => 0,
             'vads_ctx_mode' => 'TEST',
             'vads_currency' => 978,//pour EUR cf doc clicandpay
             'vads_page_action' => 'PAYMENT',
+            'vads_payment_cards' => 'CB',
             'vads_payment_config' => 'SINGLE',
             'vads_site_id' => $this->api->getUsername(),
             'vads_trans_date' => date('ymdhms', $payment->getCreatedAt()->getTimestamp()),
             'vads_trans_id' => 123456,//test 2309 - voir où pêcher info ???
+            'vads_validation_mode' => 0,
             'vads_version' => 'V2',
         ];
 
@@ -51,13 +54,16 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
                 'body' => json_encode([
                     'vads_action_mode' => 'INTERACTIVE',
                     'vads_amount' => $payment->getAmount(),
+                    'vads_capture_delay' => 0,
                     'vads_ctx_mode' => 'TEST',
                     'vads_currency' => 978,//pour EUR cf doc clicandpay
                     'vads_page_action' => 'PAYMENT',
+                    'vads_payment_cards' => 'CB',
                     'vads_payment_config' => 'SINGLE',
                     'vads_site_id' => $this->api->getUsername(),
                     'vads_trans_date' => date('ymdhms', $payment->getCreatedAt()->getTimestamp()),
                     'vads_trans_id' => 123456,//test 2309 - voir où pêcher info sur n° transaction ???
+                    'vads_validation_mode' => 0,
                     'vads_version' => 'V2',
                     'signature' => $this->getSignature($params, $this->api->getKey()),
                 ]),
