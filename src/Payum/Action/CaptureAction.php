@@ -33,17 +33,37 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         /** @var SyliusPaymentInterface $payment */
         $payment = $request->getModel();
 
+        $params = [
+            'vads_action_mode' => 'INTERACTIVE',
+            'vads_amount' => $payment->getAmount(),
+            'vads_ctx_mode' => 'TEST',
+            'vads_currency' => 978,//pour EUR cf doc clicandpay
+            'vads_page_action' => 'PAYMENT',
+            'vads_payment_config' => 'SINGLE',
+            'vads_site_id' => $this->api->getUsername(),
+            'vads_trans_date' => date('ymdhms', $payment->getCreatedAt()->getTimestamp()),
+            'vads_trans_id' => 123456,//test 2309 - voir où pêcher info ???
+            'vads_version' => 'V2',
+        ];
+
         try {
-            $response = $this->client->request('POST', 'https://api-clicandpay.groupecdn.fr/api-payment/V4/Charge/CreatePayment', [
+            $response = $this->client->request('POST', 'https://clicandpay.groupecdn.fr/vads-payment/', [
                 'body' => json_encode([
-                    'price' => $payment->getAmount(),
-                    'currency' => $payment->getCurrencyCode(),
-                    'username' => $this->api->getUsername(),
-                    'password' => $this->api->getPassword(),
-                    'publicKey' => $this->api->getPublicKey(),
-                    'sha256Key' => $this->api->getSha256Key(),
+                    'vads_action_mode' => 'INTERACTIVE',
+                    'vads_amount' => $payment->getAmount(),
+                    'vads_ctx_mode' => 'TEST',
+                    'vads_currency' => 978,//pour EUR cf doc clicandpay
+                    'vads_page_action' => 'PAYMENT',
+                    'vads_payment_config' => 'SINGLE',
+                    'vads_site_id' => $this->api->getUsername(),
+                    'vads_trans_date' => date('ymdhms', $payment->getCreatedAt()->getTimestamp()),
+                    'vads_trans_id' => 123456,//test 2309 - voir où pêcher info sur n° transaction ???
+                    'vads_version' => 'V2',
+                    'signature' => $this->getSignature($params, '7iNo4wnkrv4DLIRO'),//TODO : remplacer clé test par clé prod ensuite et voir comment sécuriser = enlever clé en dur
                 ]),
             ]);
+            // sets a HTTP response header - 2309 check if needed or not
+            //header('Authorization: Basic ' . base64_encode($this->api->getUsername() . ':' . $this->api->getPassword()));
         } catch (RequestException $exception) {
             $response = $exception->getResponse();
         } finally {
@@ -66,5 +86,34 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         }
 
         $this->api = $api;
+    }
+
+    public function getSignature($params, $key)
+    {
+        /**
+         * Fonction qui calcule la signature.
+         * $params : tableau contenant les champs à envoyer dans le formulaire.
+         * $key : clé de TEST ou de PRODUCTION
+         */
+        //Initialisation de la variable qui contiendra la chaine à chiffrer
+        $contenu_signature = "";
+
+        //Tri des champs par ordre alphabétique
+        ksort($params);
+        foreach ($params as $nom=>$valeur) {
+
+            //Récupération des champs vads_
+            if (substr($nom, 0, 5)=='vads_') {
+
+                //Concaténation avec le séparateur "+"
+                $contenu_signature .= $valeur."+";
+            }
+        }
+        //Ajout de la clé en fin de chaine
+        $contenu_signature .= $key;
+
+        //Encodage base64 de la chaine chiffrée avec l'algorithme HMAC-SHA-256
+        $signature = base64_encode(hash_hmac('sha256', $contenu_signature, $key, true));
+        return $signature;
     }
 }
