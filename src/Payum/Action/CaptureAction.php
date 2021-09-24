@@ -59,7 +59,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
                     'vads_trans_date' => date('ymdhms', $payment->getCreatedAt()->getTimestamp()),
                     'vads_trans_id' => 123456,//test 2309 - voir où pêcher info sur n° transaction ???
                     'vads_version' => 'V2',
-                    'signature' => $this->getSignature($params, '7iNo4wnkrv4DLIRO'),//TODO : remplacer clé test par clé prod ensuite et voir comment sécuriser = enlever clé en dur
+                    'signature' => $this->getSignature($params, $this->api->getKey()),
                 ]),
             ]);
             // sets a HTTP response header - 2309 check if needed or not
