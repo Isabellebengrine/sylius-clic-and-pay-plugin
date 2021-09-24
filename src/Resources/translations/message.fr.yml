@@ -1,0 +1,10 @@
+sylius:
+    form:
+        gateway_configuration:
+            clicandpay:
+                username: 'Utilisateur'
+                key: 'Clé'
+    gateway_config:
+        clicandpay:
+            username:
+                not_blank: 'Ce champ est requis'
