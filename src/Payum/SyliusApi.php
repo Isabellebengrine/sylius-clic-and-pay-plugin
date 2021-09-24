@@ -1,4 +1,4 @@
-<?php
+<<?php
 
 declare(strict_types=1);
 
@@ -10,20 +10,12 @@ final class SyliusApi
     private $username;
 
     /** @var string */
-    private $password;
+    private $key;
 
-    /** @var string */
-    private $publicKey;
-
-    /** @var string */
-    private $sha256Key;
-
-    public function __construct(string $username, string $pass, string $key, string $sha256Key)
+    public function __construct(string $username, string $key)
     {
         $this->username = $username;
-        $this->password = $pass;
-        $this->publicKey = $key;
-        $this->sha256Key = $sha256Key;
+        $this->key = $key;
     }
 
     public function getUsername(): string
@@ -31,18 +23,8 @@ final class SyliusApi
         return $this->username;
     }
 
-    public function getPassword(): string
+    public function getKey(): string
     {
-        return $this->password;
-    }
-
-    public function getPublicKey(): string
-    {
-        return $this->publicKey;
-    }
-
-    public function getSha256Key(): string
-    {
-        return $this->sha256Key;
+        return $this->key;
     }
 }
