@@ -21,24 +21,8 @@ final class ClicandpayGatewayConfigurationType extends AbstractType
                         ]),
                     ],
                 ])
-                ->add('password', TextType::class, [
-                    'label' => 'sylius.form.gateway_configuration.clicandpay.password',
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'sylius.gateway_config.clicandpay.username.not_blank',
-                        ]),
-                    ],
-                ])
-                ->add('publicKey', TextType::class, [
-                    'label' => 'sylius.form.gateway_configuration.clicandpay.publicKey',
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'sylius.gateway_config.clicandpay.username.not_blank',
-                        ]),
-                    ],
-                ])
-                ->add('sha256Key', TextType::class, [
-                    'label' => 'sylius.form.gateway_configuration.clicandpay.sha256Key',
+                ->add('key', TextType::class, [
+                    'label' => 'sylius.form.gateway_configuration.clicandpay.key',
                     'constraints' => [
                         new NotBlank([
                             'message' => 'sylius.gateway_config.clicandpay.username.not_blank',
