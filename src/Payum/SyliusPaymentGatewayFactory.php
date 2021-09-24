@@ -21,7 +21,7 @@ final class SyliusPaymentGatewayFactory extends GatewayFactory
         ]);
 
         $config['payum.api'] = function (ArrayObject $config) {
-            return new SyliusApi($config['username'], $config['password'], $config['publicKey'], $config['sha256Key']);
+            return new SyliusApi($config['username'], $config['key']);
         };
     }
 }
