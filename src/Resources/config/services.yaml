@@ -8,12 +8,13 @@ services:
 
     Poliofu\SyliusClicAndPayPlugin\Form\Type\ClicandpayGatewayConfigurationType:
         tags:
-            - { name: sylius.gateway_configuration_type, type: clic_and_pay, label: Clic&Pay }
+            - { name: sylius.gateway_configuration_type, type: clic_and_pay, label: 'Clic&Pay' }
             - { name: form.type }
 
     Poliofu\SyliusClicAndPayPlugin\Payum\Action\CaptureAction:
-        public: true
-        argument:
-            - { type: service, id: sylius.http_client }
+        # public: true # modif 2309 à vérif
+        arguments:
+            # - { type: service, id: sylius.http_client } # 2309 ?
+            - '@sylius.http_client'
         tags:
             - { name: payum.action, factory: clic_and_pay, alias: payum.action.capture }
